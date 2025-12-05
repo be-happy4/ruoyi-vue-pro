@@ -8,20 +8,26 @@ import lombok.Getter;
  *
  * @author 芋道源码
  */
-@Getter
 @AllArgsConstructor
 public enum SexEnum {
-
-    /** 男 */
-    MALE(1),
-    /** 女 */
-    FEMALE(2),
     /* 未知 */
-    UNKNOWN(0);
+    UNKNOWN,
+    /** 男 */
+    MALE,
+    /** 女 */
+    FEMALE,
+    ;
 
     /**
      * 性别
      */
-    private final Integer sex;
+    private final int code;
 
+    SexEnum() {
+        this.code = ordinal();
+    }
+
+    public Integer getCode() {
+        return code;
+    }
 }

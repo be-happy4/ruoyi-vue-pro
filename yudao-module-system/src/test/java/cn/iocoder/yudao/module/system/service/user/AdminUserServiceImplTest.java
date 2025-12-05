@@ -96,7 +96,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
     public void testCreatUser_success() {
         // 准备参数
         UserSaveReqVO reqVO = randomPojo(UserSaveReqVO.class, o -> {
-            o.setSex(RandomUtil.randomEle(SexEnum.values()).getSex());
+            o.setSex(RandomUtil.randomEle(SexEnum.values()).getCode());
             o.setMobile(randomString());
             o.setPostIds(asSet(1L, 2L));
         }).setId(null); // 避免 id 被赋值
@@ -160,7 +160,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         // 准备参数
         UserSaveReqVO reqVO = randomPojo(UserSaveReqVO.class, o -> {
             o.setId(dbUser.getId());
-            o.setSex(RandomUtil.randomEle(SexEnum.values()).getSex());
+            o.setSex(RandomUtil.randomEle(SexEnum.values()).getCode());
             o.setMobile(randomString());
             o.setPostIds(asSet(2L, 3L));
         });
@@ -215,7 +215,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         Long userId = dbUser.getId();
         UserProfileUpdateReqVO reqVO = randomPojo(UserProfileUpdateReqVO.class, o -> {
             o.setMobile(randomString());
-            o.setSex(RandomUtil.randomEle(SexEnum.values()).getSex());
+            o.setSex(RandomUtil.randomEle(SexEnum.values()).getCode());
             o.setAvatar(randomURL());
         });
 
@@ -438,7 +438,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         // 准备参数
         UserImportExcelVO importUser = randomPojo(UserImportExcelVO.class, o -> {
             o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()); // 保证 status 的范围
-            o.setSex(randomEle(SexEnum.values()).getSex()); // 保证 sex 的范围
+            o.setSex(randomEle(SexEnum.values()).getCode()); // 保证 sex 的范围
             o.setEmail(randomEmail());
             o.setMobile(randomMobile());
         });
@@ -473,7 +473,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         // 准备参数
         UserImportExcelVO importUser = randomPojo(UserImportExcelVO.class, o -> {
             o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()); // 保证 status 的范围
-            o.setSex(randomEle(SexEnum.values()).getSex()); // 保证 sex 的范围
+            o.setSex(randomEle(SexEnum.values()).getCode()); // 保证 sex 的范围
             o.setUsername(dbUser.getUsername());
             o.setEmail(randomEmail());
             o.setMobile(randomMobile());
@@ -505,7 +505,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         // 准备参数
         UserImportExcelVO importUser = randomPojo(UserImportExcelVO.class, o -> {
             o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()); // 保证 status 的范围
-            o.setSex(randomEle(SexEnum.values()).getSex()); // 保证 sex 的范围
+            o.setSex(randomEle(SexEnum.values()).getCode()); // 保证 sex 的范围
             o.setUsername(dbUser.getUsername());
             o.setEmail(randomEmail());
             o.setMobile(randomMobile());
@@ -758,7 +758,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
     private static AdminUserDO randomAdminUserDO(Consumer<AdminUserDO>... consumers) {
         Consumer<AdminUserDO> consumer = (o) -> {
             o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()); // 保证 status 的范围
-            o.setSex(randomEle(SexEnum.values()).getSex()); // 保证 sex 的范围
+            o.setSex(randomEle(SexEnum.values()).getCode()); // 保证 sex 的范围
         };
         return randomPojo(AdminUserDO.class, ArrayUtils.append(consumer, consumers));
     }
