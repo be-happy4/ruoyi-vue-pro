@@ -10,11 +10,8 @@ import lombok.Getter;
  */
 @AllArgsConstructor
 public enum SexEnum {
-    /* 未知 */
     UNKNOWN,
-    /** 男 */
     MALE,
-    /** 女 */
     FEMALE,
     ;
 
@@ -22,9 +19,12 @@ public enum SexEnum {
      * 性别
      */
     private final int code;
+    @Getter
+    private final String abbreviation;
 
     SexEnum() {
         this.code = ordinal();
+        this.abbreviation = name().substring(0, 1);
     }
 
     public Integer getCode() {
