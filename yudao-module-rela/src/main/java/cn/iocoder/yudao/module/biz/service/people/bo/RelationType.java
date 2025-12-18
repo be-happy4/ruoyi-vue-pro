@@ -11,6 +11,8 @@ public record RelationType(
         this(null, name, List.of(aliases));
     }
 
+    public static final RelationType NONE = new RelationType("无");
+
     // ========== 直系一代（配偶、父母、子女）==========
     public static final RelationType HUSBAND = new RelationType("丈夫", "老公", "先生", "当家的");
     public static final RelationType WIFE = new RelationType("妻子", "老婆", "媳妇", "内人", "太太");

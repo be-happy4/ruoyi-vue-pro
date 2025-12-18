@@ -4,9 +4,9 @@ import cn.iocoder.yudao.module.biz.service.people.util.FuzzyDate;
 import cn.iocoder.yudao.module.system.enums.common.SexEnum;
 
 import javax.annotation.Nullable;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 
 public record Person(
         Long id,
@@ -14,7 +14,10 @@ public record Person(
         SexEnum sex,
         FuzzyDate birthday,
         @Nullable
-        String avatar
+        String avatar,
+        List<String> aliases,
+        List<String> tags,
+        Map<String, String> attrs
 ) {
     static final Comparator<Person> AGE_COMPARATOR = Comparator.comparing(
             Person::birthday,
@@ -26,6 +29,6 @@ public record Person(
 
     @Override
     public String toString() {
-        return "(" + name + "," + sex.getAbbreviation() + "," + birthday.format() + ")";
+        return name;
     }
 }

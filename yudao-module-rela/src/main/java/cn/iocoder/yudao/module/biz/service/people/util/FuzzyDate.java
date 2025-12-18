@@ -22,14 +22,15 @@ public record FuzzyDate(LocalDate date, ChronoUnit unit) implements Comparable<F
 
     static final DateTimeFormatter FMT_UNKNOWN = DateTimeFormatter.ofPattern("");
     static final DateTimeFormatter FMT_YYYY = DateTimeFormatter.ofPattern("yyyy");
-    static final DateTimeFormatter FMT_YYYYMM = DateTimeFormatter.ofPattern("yyyyMM");
-    static final DateTimeFormatter FMT_YYYYMMDD = DateTimeFormatter.ofPattern("yyyyMMdd");
+    static final DateTimeFormatter FMT_YYYY_MM = DateTimeFormatter.ofPattern("yyyy-MM");
+    static final DateTimeFormatter FMT_YYYY_MM_DD = DateTimeFormatter.ISO_DATE;
+    static final DateTimeFormatter FMT_FULL = DateTimeFormatter.ISO_DATE_TIME;
 
     static final TreeMap<ChronoUnit, DateTimeFormatter> FMT_MAP = new TreeMap<>(Map.of(
             ChronoUnit.FOREVER, FMT_UNKNOWN,
             ChronoUnit.YEARS, FMT_YYYY,
-            ChronoUnit.MONTHS, FMT_YYYYMM,
-            ChronoUnit.DAYS, FMT_YYYYMMDD
+            ChronoUnit.MONTHS, FMT_YYYY_MM,
+            ChronoUnit.DAYS, FMT_YYYY_MM_DD
     ));
 
     public FuzzyDate(LocalDate day) {
@@ -54,8 +55,25 @@ public record FuzzyDate(LocalDate date, ChronoUnit unit) implements Comparable<F
         return FMT_MAP.floorEntry(unit).getValue();
     }
 
+    public static FuzzyDate parse(String date) {
+        for (var entry : FMT_MAP.sequencedEntrySet().reversed()) {
+            try {
+                var formatter = entry.getValue();
+                var chronoUnit = entry.getKey();
+                var localDate = LocalDate.parse(date, formatter);
+                return new FuzzyDate(localDate, chronoUnit);
+            } catch (Exception ignored) {
+            }
+        }
+        throw new IllegalArgumentException("Cannot parse date: " + date);
+    }
+
     public String format() {
         // TODO: 12/8/25 field test
         return getFormatter(unit).format(date);
+    }
+
+    public LocalDate getLocalDate() {
+        return date;
     }
 }
