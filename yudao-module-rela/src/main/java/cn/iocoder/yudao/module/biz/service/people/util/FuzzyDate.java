@@ -17,6 +17,8 @@ public record FuzzyDate(LocalDate date, ChronoUnit unit) implements Comparable<F
      * Unknown date
      */
     public static final FuzzyDate UNKNOWN = new FuzzyDate(LocalDate.MIN, ChronoUnit.FOREVER);
+    public static final FuzzyDate MIN = new FuzzyDate(LocalDate.MIN, ChronoUnit.FOREVER);
+    public static final FuzzyDate MAX = new FuzzyDate(LocalDate.MAX, ChronoUnit.FOREVER);
     static final Comparator<FuzzyDate> CMP = Comparator.comparing(FuzzyDate::date)
             .thenComparing(FuzzyDate::unit);
 
