@@ -8,4 +8,5 @@ import java.util.List;
 public class RelationalGraph {
     private final List<Person> persons;
     private final List<Relation> relations;
+    private final List<RelationType> relaTypes;
 }
