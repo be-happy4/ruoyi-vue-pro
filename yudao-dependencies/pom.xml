@@ -48,6 +48,7 @@
         <!-- Bpm 工作流相关 -->
         <flowable.version>7.2.0</flowable.version>
         <!-- 工具类相关 -->
+        <antlr4.version>4.13.2</antlr4.version>
         <anji-plus-captcha.version>1.4.0</anji-plus-captcha.version>
         <jsoup.version>1.21.2</jsoup.version>
         <lombok.version>1.18.42</lombok.version>
@@ -448,6 +449,12 @@
                 <groupId>cn.iocoder.boot</groupId>
                 <artifactId>yudao-spring-boot-starter-excel</artifactId>
                 <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr4-runtime</artifactId>
+                <version>${antlr4.version}</version>
             </dependency>
 
             <dependency>
