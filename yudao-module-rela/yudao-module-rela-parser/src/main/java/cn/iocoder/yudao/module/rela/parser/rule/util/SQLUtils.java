@@ -157,7 +157,7 @@ public final class SQLUtils {
             exactlyTableName.append(value.charAt(startIndex));
             startIndex++;
         }
-        return 0 == exactlyTableName.length() ? value : exactlyTableName.toString();
+        return exactlyTableName.isEmpty() ? value : exactlyTableName.toString();
     }
 
     /**
@@ -236,7 +236,7 @@ public final class SQLUtils {
                     new LiteralExpressionSegment(startIndex, stopIndex, numberLiteralValue.getValue());
             case BooleanLiteralValue booleanLiteralValue ->
                     new LiteralExpressionSegment(startIndex, stopIndex, booleanLiteralValue.getValue());
-            case NullLiteralValue nullLiteralValue -> new LiteralExpressionSegment(startIndex, stopIndex, null);
+            case NullLiteralValue _ -> new LiteralExpressionSegment(startIndex, stopIndex, null);
             case TemporalLiteralValue temporalLiteralValue ->
                     new LiteralExpressionSegment(startIndex, stopIndex, temporalLiteralValue.getValue());
             case OtherLiteralValue otherLiteralValue ->
