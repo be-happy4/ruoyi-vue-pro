@@ -126,8 +126,12 @@ patternMatchingOperator
     | NOT_ TILDE_ ASTERISK_
     ;
 
-cursorName
-    : name | hostVariable
+//cursorName
+//    : name | hostVariable
+//    ;
+
+typeFuncNameKeyword
+    : IS
     ;
 
 aExpr
@@ -204,8 +208,8 @@ bExpr
     ;
 
 cExpr
-    : parameterMarker
-    | columnref
+    : /*parameterMarker
+    | */columnref
     | aexprConst
     | PARAM indirectionEl?
     | LP_ aExpr RP_ optIndirection
