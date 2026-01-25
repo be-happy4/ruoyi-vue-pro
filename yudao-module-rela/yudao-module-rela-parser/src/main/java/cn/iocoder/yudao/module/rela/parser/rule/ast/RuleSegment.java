@@ -30,12 +30,12 @@ public interface RuleSegment extends RuleASTNode {
      *
      * @return start index
      */
-    int getStartIndex();
+    int startIndex();
 
     /**
      * Get stop index.
      *
      * @return stop index
      */
-    int getStopIndex();
+    int stopIndex();
 }

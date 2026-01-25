@@ -14,5 +14,5 @@ public sealed interface ExpressionSegment extends RuleSegment
      *
      * @return text
      */
-    String getText();
+    String text();
 }

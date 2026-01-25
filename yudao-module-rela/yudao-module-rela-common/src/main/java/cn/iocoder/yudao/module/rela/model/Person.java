@@ -1,7 +1,7 @@
-package cn.iocoder.yudao.module.rela.service.people.bo;
+package cn.iocoder.yudao.module.rela.model;
 
-import cn.iocoder.yudao.module.rela.service.people.enums.Sex;
-import cn.iocoder.yudao.module.rela.service.people.util.FuzzyDate;
+
+import cn.iocoder.yudao.module.rela.enums.Sex;
 
 import java.util.Comparator;
 

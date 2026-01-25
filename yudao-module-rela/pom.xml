@@ -8,6 +8,7 @@
         <version>${revision}</version>
     </parent>
     <modules>
+        <module>yudao-module-rela-common</module>
         <module>yudao-module-rela-biz</module>
         <module>yudao-module-rela-parser</module>
     </modules>

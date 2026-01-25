@@ -31,5 +31,5 @@ public interface ValueASTNode<T> extends RuleASTNode {
      *
      * @return value
      */
-    T getValue();
+    T value();
 }

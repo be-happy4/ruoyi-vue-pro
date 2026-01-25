@@ -17,15 +17,9 @@
 
 package cn.iocoder.yudao.module.rela.parser.rule.ast.value;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-
 /**
  * Keyword value.
  */
-@RequiredArgsConstructor
-@Getter
-public final class KeywordValue implements ValueASTNode<String> {
+public record KeywordValue(String value) implements ValueASTNode<String> {
 
-    private final String value;
 }

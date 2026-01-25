@@ -1,4 +1,4 @@
-package cn.iocoder.yudao.module.rela.service.people.bo;
+package cn.iocoder.yudao.module.rela.model;
 
 import lombok.Data;
 

@@ -32,7 +32,7 @@ public final class BooleanLiteralValue implements LiteralValue<Boolean> {
     }
 
     @Override
-    public Boolean getValue() {
+    public Boolean value() {
         return value;
     }
 }

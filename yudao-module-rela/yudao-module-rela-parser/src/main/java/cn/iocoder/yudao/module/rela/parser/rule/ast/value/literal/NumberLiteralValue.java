@@ -18,7 +18,6 @@
 package cn.iocoder.yudao.module.rela.parser.rule.ast.value.literal;
 
 import cn.iocoder.yudao.module.rela.parser.rule.util.SQLUtils;
-import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -26,16 +25,13 @@ import java.math.BigInteger;
 /**
  * Number literal value.
  */
-@Getter
-public final class NumberLiteralValue implements LiteralValue<Number> {
-
-    private final Number value;
+public record NumberLiteralValue(Number value) implements LiteralValue<Number> {
 
     public NumberLiteralValue(final String value) {
-        this.value = getNumber(value);
+        this(getNumber(value));
     }
 
-    private Number getNumber(final String value) {
+    static Number getNumber(final String value) {
         try {
             return SQLUtils.getExactlyNumber(new BigInteger(value));
         } catch (final NumberFormatException ex) {

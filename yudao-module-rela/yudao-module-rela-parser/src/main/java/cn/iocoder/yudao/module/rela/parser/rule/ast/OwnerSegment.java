@@ -21,12 +21,14 @@ import cn.iocoder.yudao.module.rela.parser.rule.ast.value.IdentifierValue;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import java.util.Optional;
 
 /**
  * Owner segment.
  */
+@Accessors(fluent = true)
 @RequiredArgsConstructor
 @Getter
 @Setter

@@ -1,6 +1,6 @@
 package cn.iocoder.yudao.module.rela.parser.rule.ast;
 
-import java.util.List;
+import cn.iocoder.yudao.module.rela.parser.rule.ast.derive.DerivativeRelations;
 
-public record Rule(RuleSegment expr, List<DerivativeRelation> relaList) {
+public record Rule(RuleSegment expr, DerivativeRelations dr) {
 }

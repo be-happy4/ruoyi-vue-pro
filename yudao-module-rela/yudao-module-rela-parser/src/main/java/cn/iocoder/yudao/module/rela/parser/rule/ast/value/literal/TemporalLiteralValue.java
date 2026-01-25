@@ -17,17 +17,10 @@
 
 package cn.iocoder.yudao.module.rela.parser.rule.ast.value.literal;
 
-import lombok.Getter;
-
 /**
  * Temporal literal value.
  */
-@Getter
-public final class TemporalLiteralValue implements LiteralValue<Object> {
-
-    private final String temporalType;
-
-    private final String value;
+public record TemporalLiteralValue(String temporalType, String value) implements LiteralValue<Object> {
 
     public TemporalLiteralValue(final String temporalType, final String value) {
         this.temporalType = temporalType;

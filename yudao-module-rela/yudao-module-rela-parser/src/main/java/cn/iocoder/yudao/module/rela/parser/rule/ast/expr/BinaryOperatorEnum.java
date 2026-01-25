@@ -1,5 +1,8 @@
 package cn.iocoder.yudao.module.rela.parser.rule.ast.expr;
 
+import lombok.Getter;
+
+@Getter
 public enum BinaryOperatorEnum {
     Times(60, "*"),
     Div(60, "/"),
@@ -27,13 +30,5 @@ public enum BinaryOperatorEnum {
     BinaryOperatorEnum(int precedence, String operator) {
         this.precedence = precedence;
         this.operator = operator;
-    }
-
-    public int getPrecedence() {
-        return precedence;
-    }
-
-    public String getOperator() {
-        return operator;
     }
 }

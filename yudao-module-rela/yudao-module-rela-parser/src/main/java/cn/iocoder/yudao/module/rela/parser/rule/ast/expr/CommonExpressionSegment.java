@@ -17,19 +17,10 @@
 
 package cn.iocoder.yudao.module.rela.parser.rule.ast.expr;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-
 /**
  * Common expression segment.
  */
-@RequiredArgsConstructor
-@Getter
-public final class CommonExpressionSegment implements ComplexExpressionSegment {
+public record CommonExpressionSegment(int startIndex, int stopIndex, String text)
+        implements ComplexExpressionSegment {
 
-    private final int startIndex;
-
-    private final int stopIndex;
-
-    private final String text;
 }

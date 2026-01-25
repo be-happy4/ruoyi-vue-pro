@@ -231,16 +231,16 @@ public final class SQLUtils {
                                                             final int stopIndex, final String text) {
         return switch (astNode) {
             case StringLiteralValue stringLiteralValue ->
-                    new LiteralExpressionSegment(startIndex, stopIndex, stringLiteralValue.getValue());
+                    new LiteralExpressionSegment(startIndex, stopIndex, stringLiteralValue.value());
             case NumberLiteralValue numberLiteralValue ->
-                    new LiteralExpressionSegment(startIndex, stopIndex, numberLiteralValue.getValue());
+                    new LiteralExpressionSegment(startIndex, stopIndex, numberLiteralValue.value());
             case BooleanLiteralValue booleanLiteralValue ->
-                    new LiteralExpressionSegment(startIndex, stopIndex, booleanLiteralValue.getValue());
+                    new LiteralExpressionSegment(startIndex, stopIndex, booleanLiteralValue.value());
             case NullLiteralValue _ -> new LiteralExpressionSegment(startIndex, stopIndex, null);
             case TemporalLiteralValue temporalLiteralValue ->
-                    new LiteralExpressionSegment(startIndex, stopIndex, temporalLiteralValue.getValue());
+                    new LiteralExpressionSegment(startIndex, stopIndex, temporalLiteralValue.value());
             case OtherLiteralValue otherLiteralValue ->
-                    new CommonExpressionSegment(startIndex, stopIndex, otherLiteralValue.getValue());
+                    new CommonExpressionSegment(startIndex, stopIndex, otherLiteralValue.value());
             case null, default -> new CommonExpressionSegment(startIndex, stopIndex, text);
         };
     }
