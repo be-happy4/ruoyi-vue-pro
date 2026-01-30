@@ -1,25 +1,111 @@
 # 父母关系为基础的推导规则集
 
-## 直系关系推导
+## 元关系/一阶关系推导
 ### select A.*, B.* from person A, person B, relation R
-### where A.sex='M' AND R.from_id=A.id AND R.to_id=B.id AND (R.type='父亲' OR R.type='母亲');
+### where R.from_id=A.id AND R.to_id=B.id AND (R.type='父亲' OR R.type='母亲') AND A.sex='M';
 ### insert into relation(from_id, to_id, type) values (A.id, B.id, '儿子');
-A.sex='M' AND (A.父亲=B OR A.母亲=B) => B.儿子=A
-A.sex='F' AND (A.父亲=B OR A.母亲=B) => B.女儿=A
-A.sex='M' AND (A.父亲=C AND B.父亲=C OR A.母亲=C AND B.母亲=C) AND A.birthDay < B.birthDay => B.哥哥=A
-A.sex='F' AND (A.父亲=C AND B.父亲=C OR A.母亲=C AND B.母亲=C) AND A.birthDay < B.birthDay => B.姐姐=A
-A.sex='M' AND (A.父亲=C AND B.父亲=C OR A.母亲=C AND B.母亲=C) AND A.birthDay > B.birthDay => B.弟弟=A
-A.sex='F' AND (A.父亲=C AND B.父亲=C OR A.母亲=C AND B.母亲=C) AND A.birthDay > B.birthDay => B.妹妹=A
-A.父亲=B OR A.母亲=C => B.妻子=A, C.丈夫=B
+A.妻子=B => B.丈夫=A
+(A.父亲=B OR A.母亲=B) AND A.sex='M' => B.儿子=A
+(A.父亲=B OR A.母亲=B) AND A.sex='F' => B.女儿=A
 
-A.父亲=B AND B.父亲=C => A.爷爷=C
-A.父亲=B AND B.母亲=C => A.奶奶=C
-A.母亲=B AND B.父亲=C => A.外公=C
-A.母亲=B AND B.母亲=C => A.外婆=C
+## 二阶关系推导
+### 子女关系逆向推导夫妻
+A.父亲=B AND A.母亲=C => B.妻子=A, C.丈夫=B
+### 父母的父母
+A.父亲=B AND B.父亲=C => A.祖父=C
+A.父亲=B AND B.母亲=C => A.祖母=C
+A.母亲=B AND B.父亲=C => A.外祖父=C
+A.母亲=B AND B.母亲=C => A.外祖母=C
+### 子女的子女
+A.儿子=B AND B.儿子=C => C.孙子=A
+A.儿子=B AND B.女儿=C => C.孙女=A
+A.女儿=B AND B.儿子=C => C.外孙子=A
+A.女儿=B AND B.女儿=C => C.外孙女=A
+### 兄弟姐妹
+(A.父亲=B OR A.母亲=B) AND B.儿子=C AND A.birthDay > C.birthDay => A.哥哥=B
+(A.父亲=B OR A.母亲=B) AND B.儿子=C AND A.birthDay < C.birthDay => A.弟弟=B
+(A.父亲=B OR A.母亲=B) AND B.女儿=C AND A.birthDay > C.birthDay => A.姐姐=B
+(A.父亲=B OR A.母亲=B) AND B.女儿=C AND A.birthDay < C.birthDay => A.妹妹=B
+### 配偶的父母
+A.妻子=B AND B.父亲=C => A.岳父=C
+A.妻子=B AND B.母亲=C => A.岳母=C
+A.丈夫=B AND B.父亲=C => A.公公=C
+A.丈夫=B AND B.母亲=C => A.婆婆=C
+### 子女的配偶
+A.儿子=B AND B.妻子=C => A.儿媳=C
+A.女儿=B AND B.丈夫=C => A.女婿=C
 
-A.sex='M' AND A.父亲=B AND (B.父亲=C OR B.母亲=C) => C.孙子=A
-A.sex='F' AND A.父亲=B AND (B.父亲=C OR B.母亲=C) => C.孙女=A
-A.sex='M' AND A.母亲=B AND (B.父亲=C OR B.母亲=C) => C.外孙子=A
-A.sex='F' AND A.母亲=B AND (B.父亲=C OR B.母亲=C) => C.外孙女=A
+## 三阶关系推导
+### 祖父母的父母
+(A.祖父=B OR A.祖母) AND B.父亲=C => A.曾祖父=C
+(A.祖父=B OR A.祖母) AND B.母亲=C => A.曾祖母=C
+(A.外祖父=B OR A.外祖母) AND B.父亲=C => A.外曾祖父=C
+(A.外祖父=B OR A.外祖母) AND B.母亲=C => A.外曾祖母=C
+### 孙子女的子女
+(A.孙子=B OR A.孙女) AND B.儿子=C => A.曾孙=C
+(A.孙子=B OR A.孙女) AND B.女儿=C => A.曾孙女=C
+(A.外祖父=B OR A.外祖母) AND B.儿子=C => A.外曾孙=C
+(A.外祖父=B OR A.外祖母) AND B.女儿=C => A.外曾孙女=C
+### 父母的兄弟姐妹
+A.父亲=B AND B.哥哥=C => A.伯伯=C
+A.父亲=B AND B.弟弟=C => A.叔叔=C
+A.父亲=B AND (B.姐姐=C OR B.妹妹=C) => A.姑姑=C
+A.母亲=B AND (B.哥哥=C OR B.弟弟=C) => A.舅舅=C
+A.母亲=B AND (B.姐姐=C OR B.妹妹=C) => A.阿姨=C
+### 兄弟姐妹的子女
+(A.哥哥=B OR A.弟弟=B) AND B.儿子=C => A.侄子=C
+(A.哥哥=B OR A.弟弟=B) AND B.女儿=C => A.侄女=C
+(A.姐姐=B OR A.妹妹=B) AND B.儿子=C => A.外甥=C
+(A.姐姐=B OR A.妹妹=B) AND B.女儿=C => A.外甥女=C
+### 兄弟姐妹的配偶
+A.哥哥=B AND B.妻子=C => A.嫂子=C
+A.弟弟=B AND B.妻子=C => A.弟妹=C
+A.姐姐=B AND B.丈夫=C => A.姐夫=C
+A.妹妹=B AND B.丈夫=C => A.妹夫=C
+### 配偶的兄弟姐妹，亦可跟随配偶称兄弟姐妹
+A.丈夫=B AND B.哥哥=C => A.大伯=C
+A.丈夫=B AND B.弟弟=C => A.小叔=C
+A.丈夫=B AND B.姐姐=C => A.大姑=C
+A.丈夫=B AND B.妹妹=C => A.小姑=C
+A.妻子=B AND B.哥哥=C => A.大舅=C
+A.妻子=B AND B.弟弟=C => A.小舅=C
+A.妻子=B AND B.姐姐=C => A.姨姐=C
+A.妻子=B AND B.妹妹=C => A.姨妹=C
+### 配偶的祖父母，无专有称谓
+# A.妻子=B AND B.祖父=C =>
+# A.妻子=B AND B.祖母=C =>
+# A.丈夫=B AND B.祖父=C =>
+# A.丈夫=B AND B.祖母=C =>
+### 孙子女的配偶
+A.孙子=B AND B.妻子=C => A.孙媳妇=C
+A.孙女=B AND B.丈夫=C => A.孙女婿=C
+A.外孙=B AND B.妻子=C => A.外孙媳妇=C
+A.外孙女=B AND B.丈夫=C => A.外孙女婿=C
+
+## 四阶关系推导
+### 叔伯姑舅姨的配偶
+A.伯伯=B AND B.妻子=C => A.伯母=C
+A.叔叔=B AND B.妻子=C => A.婶婶=C
+A.姑姑=B AND B.丈夫=C => A.姑父=C
+A.舅舅=B AND B.妻子=C => A.舅母=C
+A.阿姨=B AND B.丈夫=C => A.姨父=C
+### 祖父母的兄弟姐妹/父母的叔伯姑舅姨
+(A.父亲=B OR A.母亲=B) AND B.伯伯=C => A.伯公=C
+(A.父亲=B OR A.母亲=B) AND B.叔叔=C => A.叔公=C
+(A.父亲=B OR A.母亲=B) AND B.姑姑=C => A.姑婆=C
+(A.父亲=B OR A.母亲=B) AND B.舅舅=C => A.舅公=C
+(A.父亲=B OR A.母亲=B) AND B.阿姨=C => A.姨婆=C
+### 兄弟姐妹的孙子女
+(A.哥哥=B OR A.弟弟=B) AND (B.孙子=C OR B.孙女=C) => A.侄孙=C
+(A.姐姐=B OR A.妹妹=B) AND (B.孙子=C OR B.孙女=C) => A.外侄孙=C
+### 配偶的兄弟姐妹的配偶：娣姒、妯娌、连襟
+A.丈夫=B AND B.哥哥=C AND C.妻子=D => A.大伯嫂=D
+A.丈夫=B AND B.弟弟=C AND C.妻子=D => A.小婶子=D
+A.丈夫=B AND B.姐姐=C AND C.丈夫=D => A.大姑夫=D
+A.丈夫=B AND B.妹妹=C AND C.丈夫=D => A.小姑夫=D
+A.妻子=B AND B.哥哥=C AND C.妻子=D => A.大舅妇=D
+A.妻子=B AND B.弟弟=C AND C.妻子=D => A.小舅妇=D
+A.妻子=B AND B.姐姐=C AND C.丈夫=D => A.大姨夫=D
+A.妻子=B AND B.妹妹=C AND C.丈夫=D => A.小姨夫=D
 
 

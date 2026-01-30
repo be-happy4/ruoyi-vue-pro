@@ -1,10 +1,10 @@
 package cn.iocoder.yudao.module.rela.parser.rule.ast.derive;
 
-import cn.iocoder.yudao.module.rela.parser.rule.ast.rela.Relation;
+import cn.iocoder.yudao.module.rela.parser.rule.ast.value.IdentifierValue;
 
 public record DerivativeRelation(
-        String leftEntity,
-        String rightEntity,
-        Relation relation
+        IdentifierValue leftId,
+        IdentifierValue relationTypeName,
+        IdentifierValue rightId
 ) {
 }
