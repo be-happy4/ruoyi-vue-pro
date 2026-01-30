@@ -17,25 +17,13 @@
 
 package cn.iocoder.yudao.module.rela.parser.rule.ast.expr;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 /**
  * Unary operation expression.
  */
-@RequiredArgsConstructor
-@Getter
-@Setter
-public final class UnaryOperationExpression implements ExpressionSegment {
+public record UnaryOperationExpression(
+        int startIndex, int stopIndex, ExpressionSegment expression,
+        UnaryOperatorEnum operator, String text) implements ExpressionSegment {
 
-    private final int startIndex;
-
-    private final int stopIndex;
-
-    private final ExpressionSegment expression;
-
-    private final String operator;
-
-    private final String text;
 }

@@ -1,4 +1,4 @@
-package cn.iocoder.yudao.module.rela.service.people.util;
+package cn.iocoder.yudao.module.rela.model;
 
 import java.time.LocalDate;
 import java.time.Month;

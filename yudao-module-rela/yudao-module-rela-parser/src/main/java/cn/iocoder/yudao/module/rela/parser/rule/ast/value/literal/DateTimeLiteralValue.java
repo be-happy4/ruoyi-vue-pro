@@ -36,7 +36,7 @@ public final class DateTimeLiteralValue implements LiteralValue<String> {
     }
 
     @Override
-    public String getValue() {
+    public String value() {
         if (containsBrace) {
             return "{" + dateTimeType + " " + dateTimeValue + "}";
         }

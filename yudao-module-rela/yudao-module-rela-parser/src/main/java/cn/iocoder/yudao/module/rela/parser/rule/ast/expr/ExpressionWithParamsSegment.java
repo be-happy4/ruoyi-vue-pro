@@ -20,6 +20,7 @@ package cn.iocoder.yudao.module.rela.parser.rule.ast.expr;
 import cn.iocoder.yudao.module.rela.parser.rule.ast.RuleSegment;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.Accessors;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -27,6 +28,7 @@ import java.util.LinkedList;
 /**
  * Expression with parameters segment.
  */
+@Accessors(fluent = true)
 @RequiredArgsConstructor
 @Getter
 // TODO extends ExpressionSegment

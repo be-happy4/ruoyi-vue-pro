@@ -1,6 +1,5 @@
-package cn.iocoder.yudao.module.rela.service.people.bo;
+package cn.iocoder.yudao.module.rela.model;
 
-import cn.iocoder.yudao.module.rela.service.people.util.FuzzyDate;
 
 public record Relation(
         Long id,

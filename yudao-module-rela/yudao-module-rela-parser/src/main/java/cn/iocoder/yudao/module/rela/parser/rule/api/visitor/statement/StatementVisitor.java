@@ -21,7 +21,7 @@ import cn.iocoder.yudao.module.rela.parser.rule.api.RuleASTNode;
 import cn.iocoder.yudao.module.rela.parser.rule.api.visitor.RuleVisitor;
 
 /**
- * SQL statement visitor.
+ * statement visitor.
  */
-public interface SQLStatementVisitor extends RuleVisitor<RuleASTNode> {
+public interface StatementVisitor extends RuleVisitor<RuleASTNode> {
 }

@@ -18,27 +18,18 @@
 package cn.iocoder.yudao.module.rela.parser.rule.ast.value;
 
 import cn.iocoder.yudao.module.rela.enums.QuoteCharacter;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+
+import java.util.Optional;
 
 /**
  * Identifier value.
  */
-@RequiredArgsConstructor
-@Getter
-@EqualsAndHashCode
-@ToString
-public final class IdentifierValue implements ValueASTNode<String> {
-
-    private final String value;
-
-    private final QuoteCharacter quoteCharacter;
+public record IdentifierValue(String value, QuoteCharacter quoteCharacter)
+        implements ValueASTNode<String> {
 
     public IdentifierValue(final String text) {
-        quoteCharacter = QuoteCharacter.getQuoteCharacter(text);
-        value = null == text ? null : quoteCharacter.unwrap(text);
+        var qc = QuoteCharacter.getQuoteCharacter(text);
+        this(null == text ? null : qc.unwrap(text), qc);
     }
 
     /**
@@ -47,6 +38,8 @@ public final class IdentifierValue implements ValueASTNode<String> {
      * @return value with quote characters
      */
     public String getValueWithQuoteCharacters() {
-        return null == value ? "" : quoteCharacter.wrap(value);
+        return Optional.ofNullable(value)
+                .map(quoteCharacter::wrap)
+                .orElse("");
     }
 }

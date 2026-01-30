@@ -30,5 +30,5 @@ public interface ParameterMarkerSegment extends RuleSegment {
      *
      * @return parameter index
      */
-    int getParameterIndex();
+    int parameterIndex();
 }

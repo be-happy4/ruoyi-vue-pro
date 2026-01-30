@@ -21,12 +21,13 @@ package cn.iocoder.yudao.module.rela.parser.rule.ast.expr;
 /**
  * Complex expression segment.
  */
-public sealed interface ComplexExpressionSegment extends ExpressionSegment permits CommonExpressionSegment {
+public sealed interface ComplexExpressionSegment extends ExpressionSegment
+        permits CommonExpressionSegment {
 
     /**
      * Get text.
      *
      * @return text
      */
-    String getText();
+    String text();
 }

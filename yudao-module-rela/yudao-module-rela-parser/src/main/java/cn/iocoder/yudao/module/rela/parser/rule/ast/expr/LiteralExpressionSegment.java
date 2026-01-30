@@ -17,24 +17,14 @@
 
 package cn.iocoder.yudao.module.rela.parser.rule.ast.expr;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-
 /**
  * Literal expression segment.
  */
-@RequiredArgsConstructor
-@Getter
-public final class LiteralExpressionSegment implements SimpleExpressionSegment {
-
-    private final int startIndex;
-
-    private final int stopIndex;
-
-    private final Object literals;
+public record LiteralExpressionSegment(int startIndex, int stopIndex, Object literals)
+        implements SimpleExpressionSegment {
 
     @Override
-    public String getText() {
-        return null != literals ? literals.toString() : null;
+    public String text() {
+        return String.valueOf(literals);
     }
 }

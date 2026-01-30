@@ -17,15 +17,9 @@
 
 package cn.iocoder.yudao.module.rela.parser.rule.ast.value.literal;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-
 /**
  * Other literal value.
  */
-@RequiredArgsConstructor
-@Getter
-public final class OtherLiteralValue implements LiteralValue<String> {
+public record OtherLiteralValue(String value) implements LiteralValue<String> {
 
-    private final String value;
 }
