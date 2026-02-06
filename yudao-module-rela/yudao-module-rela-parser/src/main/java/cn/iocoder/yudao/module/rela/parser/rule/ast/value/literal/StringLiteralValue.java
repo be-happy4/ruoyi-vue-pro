@@ -17,17 +17,12 @@
 
 package cn.iocoder.yudao.module.rela.parser.rule.ast.value.literal;
 
-import lombok.Getter;
-
 import java.util.Collection;
 
 /**
  * String literal value.
  */
-@Getter
-public final class StringLiteralValue implements LiteralValue<String> {
-
-    private final String value;
+public record StringLiteralValue(String value) implements LiteralValue<String> {
 
     public StringLiteralValue(final String value) {
         this.value = value.substring(1, value.length() - 1);
@@ -38,6 +33,6 @@ public final class StringLiteralValue implements LiteralValue<String> {
         for (StringLiteralValue each : stringLiteralValues) {
             result.append(each.value());
         }
-        value = result.toString();
+        this(result.toString());
     }
 }

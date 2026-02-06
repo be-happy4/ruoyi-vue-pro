@@ -41,10 +41,6 @@ identifier
     : IDENTIFIER_ | unreservedWord
     ;
 
-uescape
-    : UESCAPE STRING_
-    ;
-
 unreservedWord
     : IF
     ;
@@ -77,18 +73,6 @@ columnNames
     : LP_ columnName (COMMA_ columnName)* RP_
     ;
 
-collationName
-    : STRING_ | identifier
-    ;
-
-indexName
-    : identifier
-    ;
-
-constraintName
-    : identifier
-    ;
-
 alias
     : identifier
     ;
@@ -98,11 +82,11 @@ primaryKey
     ;
 
 andOperator
-    : AND | AND_
+    : AND
     ;
 
 orOperator
-    : OR | OR_
+    : OR
     ;
 
 comparisonOperator
@@ -111,19 +95,9 @@ comparisonOperator
 
 patternMatchingOperator
     : LIKE
-    | TILDE_TILDE_
     | NOT LIKE
-    | NOT_TILDE_TILDE_
     | ILIKE
-    | ILIKE_
     | NOT ILIKE
-    | NOT_ILIKE_
-    | SIMILAR TO
-    | NOT SIMILAR TO
-    | TILDE_
-    | NOT_ TILDE_
-    | TILDE_ ASTERISK_
-    | NOT_ TILDE_ ASTERISK_
     ;
 
 //cursorName
@@ -136,9 +110,6 @@ typeFuncNameKeyword
 
 aExpr
     : cExpr
-//    | aExpr TYPE_CAST_ typeName
-//    | aExpr COLLATE anyName
-//    | aExpr AT TIME ZONE aExpr
     | PLUS_ aExpr
     | MINUS_ aExpr
     | aExpr PLUS_ aExpr
@@ -146,70 +117,32 @@ aExpr
     | aExpr ASTERISK_ aExpr
     | aExpr SLASH_ aExpr
     | aExpr MOD_ aExpr
-    | aExpr CARET_ aExpr
-    | aExpr AMPERSAND_ aExpr
-    | aExpr VERTICAL_BAR_ aExpr
-    | aExpr qualOp aExpr
-    | qualOp aExpr
-    | aExpr qualOp
     | aExpr comparisonOperator aExpr
     | NOT aExpr
     | aExpr patternMatchingOperator aExpr ESCAPE aExpr
     | aExpr patternMatchingOperator aExpr
     | aExpr IS NULL
-    | aExpr ISNULL
     | aExpr IS NOT NULL
-    | aExpr NOTNULL
-    | row OVERLAPS row
     | aExpr IS TRUE
     | aExpr IS NOT TRUE
     | aExpr IS FALSE
     | aExpr IS NOT FALSE
-    | aExpr IS UNKNOWN
-    | aExpr IS NOT UNKNOWN
-    | aExpr IS DISTINCT FROM aExpr
-    | aExpr IS NOT DISTINCT FROM aExpr
-    | aExpr IS OF LP_ typeList RP_
-    | aExpr IS NOT OF LP_ typeList RP_
-    | aExpr BETWEEN ASYMMETRIC? bExpr AND aExpr
-    | aExpr NOT BETWEEN ASYMMETRIC? bExpr AND aExpr
-    | aExpr BETWEEN SYMMETRIC bExpr AND aExpr
-    | aExpr NOT BETWEEN SYMMETRIC bExpr AND aExpr
+    | aExpr BETWEEN bExpr AND aExpr
+    | aExpr NOT BETWEEN bExpr AND aExpr
     | aExpr IN inExpr
     | aExpr NOT IN inExpr
-    | aExpr subqueryOp subType selectWithParens
-    | aExpr subqueryOp subType LP_ aExpr RP_
-    | UNIQUE selectWithParens
-    | aExpr IS DOCUMENT
-    | aExpr IS NOT DOCUMENT
-    | aExpr IS NORMALIZED
-    | aExpr IS unicodeNormalForm NORMALIZED
-    | aExpr IS NOT NORMALIZED
-    | aExpr IS NOT unicodeNormalForm NORMALIZED
     | aExpr andOperator aExpr
     | aExpr orOperator aExpr
-    | DEFAULT
     ;
 
 bExpr
     : cExpr
-    | bExpr TYPE_CAST_ typeName
     | PLUS_ bExpr
     | MINUS_ bExpr
-    | bExpr qualOp bExpr
-    | qualOp bExpr
-    | bExpr qualOp
-    | bExpr IS DISTINCT FROM bExpr
-    | bExpr IS NOT DISTINCT FROM bExpr
-    | bExpr IS OF LP_ typeList RP_
-    | bExpr IS NOT OF LP_ typeList RP_
-    | bExpr IS DOCUMENT
-    | bExpr IS NOT DOCUMENT
     ;
 
 cExpr
-    : /*parameterMarker
-    | */columnref
+    : columnref
     | aexprConst
     | PARAM indirectionEl?
     | LP_ aExpr RP_ optIndirection
@@ -274,21 +207,6 @@ columnref
     | colId indirection
     ;
 
-qualOp
-    : jsonOperator
-    | geometricOperator
-    | OPERATOR LP_ anyOperator RP_
-    ;
-
-subqueryOp
-    : allOp
-    | OPERATOR LP_ anyOperator RP_
-    | LIKE
-    | NOT LIKE
-    | TILDE_
-    | NOT_ TILDE_
-    ;
-
 allOp
     : op | mathOperator
     ;
@@ -297,74 +215,18 @@ op
     : (AND_
     | OR_
     | NOT_
-    | TILDE_
-    | VERTICAL_BAR_
-    | AMPERSAND_
-    | SIGNED_LEFT_SHIFT_
-    | SIGNED_RIGHT_SHIFT_
-    | CARET_
     | MOD_
-    | COLON_
     | PLUS_
     | MINUS_
     | ASTERISK_
     | SLASH_
-    | BACKSLASH_
-    | DOT_
-    | DOT_ASTERISK_
-    | SAFE_EQ_
-    | DEQ_
     | EQ_
-    | CQ_
     | NEQ_
     | GT_
     | GTE_
     | LT_
     | LTE_
-    | POUND_
-    | LP_
-    | RP_
-    | LBE_
-    | RBE_
-    | LBT_
-    | RBT_
-    | COMMA_
-    | DQ_
-    | SQ_
-    | BQ_
-    | QUESTION_
-    | DOLLAR_
-    | AT_
-    | SEMI_
-    | TILDE_TILDE_
-    | NOT_TILDE_TILDE_
-    | TYPE_CAST_
-    | ILIKE_
-    | NOT_ILIKE_
-    | UNICODE_ESCAPE
-    | JSON_EXTRACT_
-    | JSON_EXTRACT_TEXT_
-    | JSON_PATH_EXTRACT_
-    | JSON_PATH_EXTRACT_TEXT_
-    | JSONB_CONTAIN_RIGHT_
-    | JSONB_CONTAIN_LEFT_
-    | JSONB_CONTAIN_ALL_TOP_KEY_
-    | JSONB_PATH_DELETE_
-    | JSONB_PATH_CONTAIN_ANY_VALUE_
-    | JSONB_PATH_PREDICATE_CHECK_
-    | GEOMETRIC_LENGTH_
-    | GEOMETRIC_DISTANCE_
-    | GEOMETRIC_EXTEND_RIGHT_
-    | GEOMETRIC_EXTEND_LEFT_
-    | GEOMETRIC_STRICT_BELOW_
-    | GEOMETRIC_STRICT_ABOVE_
-    | GEOMETRIC_EXTEND_ABOVE_
-    | GEOMETRIC_EXTEND_BELOW_
-    | GEOMETRIC_BELOW_
-    | GEOMETRIC_ABOVE_
-    | GEOMETRIC_INTERSECT_
-    | GEOMETRIC_PERPENDICULAR_
-    | GEOMETRIC_SAME_AS_ )+
+    )+
     ;
 
 mathOperator
@@ -373,60 +235,12 @@ mathOperator
     | ASTERISK_
     | SLASH_
     | MOD_
-    | CARET_
     | LT_
     | GT_
     | EQ_
     | LTE_
     | GTE_
     | NEQ_
-    ;
-
-jsonOperator
-    : JSON_EXTRACT_ # jsonExtract
-    | JSON_EXTRACT_TEXT_ # jsonExtractText
-    | JSON_PATH_EXTRACT_ # jsonPathExtract
-    | JSON_PATH_EXTRACT_TEXT_ # jsonPathExtractText
-    | JSONB_CONTAIN_RIGHT_ # jsonbContainRight
-    | JSONB_CONTAIN_LEFT_ # jsonbContainLeft
-    | QUESTION_ # jsonbContainTopKey
-    | QUESTION_ VERTICAL_BAR_ # jsonbContainAnyTopKey
-    | JSONB_CONTAIN_ALL_TOP_KEY_ # jsonbContainAllTopKey
-    | OR_ # jsonbConcat
-    | MINUS_ # jsonbDelete
-    | JSONB_PATH_DELETE_ # jsonbPathDelete
-    | JSONB_PATH_CONTAIN_ANY_VALUE_ # jsonbPathContainAnyValue
-    | JSONB_PATH_PREDICATE_CHECK_ # jsonbPathPredicateCheck
-    ;
-
-geometricOperator
-    : GEOMETRIC_LENGTH_
-    | GEOMETRIC_DISTANCE_
-    | GEOMETRIC_EXTEND_RIGHT_
-    | GEOMETRIC_EXTEND_LEFT_
-    | GEOMETRIC_STRICT_BELOW_
-    | GEOMETRIC_STRICT_ABOVE_
-    | GEOMETRIC_EXTEND_ABOVE_
-    | GEOMETRIC_EXTEND_BELOW_
-    | GEOMETRIC_BELOW_
-    | GEOMETRIC_ABOVE_
-    | GEOMETRIC_INTERSECT_
-    | GEOMETRIC_PERPENDICULAR_
-    | GEOMETRIC_SAME_AS_
-    | QUESTION_ MINUS_
-    | QUESTION_ OR_
-    | POUND_
-    | SIGNED_LEFT_SHIFT_
-    | SIGNED_RIGHT_SHIFT_
-    ;
-
-qualAllOp
-    : allOp
-    | OPERATOR LP_ anyOperator RP_
-    ;
-
-ascDesc
-    : ASC | DESC
     ;
 
 anyOperator
@@ -506,11 +320,7 @@ typeList
 
 funcApplication
     : funcName LP_ RP_
-    | funcName LP_ funcArgList sortClause? RP_
-    | funcName LP_ VARIADIC funcArgExpr sortClause? RP_
-    | funcName LP_ funcArgList COMMA_ VARIADIC funcArgExpr sortClause? RP_
-    | funcName LP_ ALL funcArgList sortClause? RP_
-    | funcName LP_ DISTINCT funcArgList sortClause? RP_
+    | funcName LP_ funcArgList RP_
     | funcName LP_ ASTERISK_ RP_
     ;
 
@@ -521,9 +331,8 @@ funcName
 aexprConst
     : numberConst
     | STRING_
-    | BEGIN_DOLLAR_STRING_CONSTANT DOLLAR_TEXT* END_DOLLAR_STRING_CONSTANT
     | funcName STRING_
-    | funcName LP_ funcArgList sortClause? RP_ STRING_
+    | funcName LP_ funcArgList RP_ STRING_
     | constTypeName STRING_
     | TRUE
     | FALSE
@@ -542,10 +351,6 @@ colId
     : identifier
     ;
 
-channelName
-    : identifier
-    ;
-
 typeFunctionName
     : identifier | unreservedWord | typeFuncNameKeyword
     ;
@@ -555,49 +360,9 @@ functionTable
     | ROWS FROM LP_ rowsFromList RP_ ordinality?
     ;
 
-xmlTable
-    : XMLTABLE LP_ cExpr xmlExistsArgument COLUMNS xmlTableColumnList RP_
-    | XMLTABLE LP_ XMLNAMESPACES LP_ xmlNamespaceList RP_ COMMA_ cExpr xmlExistsArgument COLUMNS xmlTableColumnList RP_
-    ;
-
-xmlTableColumnList
-    : xmlTableColumnEl (COMMA_ xmlTableColumnEl)*
-    ;
-
-xmlTableColumnEl
-    : colId typeName
-    | colId typeName xmlTableColumnOptionList
-    | colId FOR ORDINALITY
-    ;
-
-xmlTableColumnOptionList
-    : xmlTableColumnOptionEl
-    | xmlTableColumnOptionList xmlTableColumnOptionEl
-    ;
-
-xmlTableColumnOptionEl
-    : identifier bExpr
-    | DEFAULT bExpr
-    | NOT NULL
-    | NULL
-    ;
-
-xmlNamespaceList
-    : xmlNamespaceEl (COMMA_ xmlNamespaceEl)*
-    ;
-
-xmlNamespaceEl
-    : bExpr AS identifier
-    | DEFAULT bExpr
-    ;
-
 funcExpr
-    : funcApplication withinGroupClause? filterClause? overClause?
+    : funcApplication filterClause?
     | functionExprCommonSubexpr
-    ;
-
-withinGroupClause
-    : WITHIN GROUP LP_ sortClause RP_
     ;
 
 filterClause
@@ -645,18 +410,6 @@ functionExprCommonSubexpr
     | COALESCE LP_ exprList RP_
     | GREATEST LP_ exprList RP_
     | LEAST LP_ exprList RP_
-    | XMLCONCAT LP_ exprList RP_
-    | XMLELEMENT LP_ NAME identifier RP_
-    | XMLELEMENT LP_ NAME identifier COMMA_ xmlAttributes RP_
-    | XMLELEMENT LP_ NAME identifier COMMA_ exprList RP_
-    | XMLELEMENT LP_ NAME identifier COMMA_ xmlAttributes COMMA_ exprList RP_
-    | XMLEXISTS LP_ cExpr xmlExistsArgument RP_
-    | XMLFOREST LP_ xmlAttributeList RP_
-    | XMLPARSE LP_ documentOrContent aExpr xmlWhitespaceOption RP_
-    | XMLPI LP_ NAME identifier RP_
-    | XMLPI LP_ NAME identifier COMMA_ aExpr RP_
-    | XMLROOT LP_ aExpr COMMA_ xmlRootVersion xmlRootStandalone? RP_
-    | XMLSERIALIZE LP_ documentOrContent aExpr AS simpleTypeName RP_
     ;
 
 typeName
@@ -680,7 +433,7 @@ simpleTypeName
 
 constTypeName
     : numeric
-    | bit
+//    | bit
     | character
     | constDatetime
     ;
@@ -747,9 +500,6 @@ characterClause
     : CHARACTER VARYING?
     | CHAR VARYING?
     | VARCHAR
-    | NATIONAL CHARACTER VARYING?
-    | NATIONAL CHAR VARYING?
-    | NCHAR VARYING?
     ;
 
 optFloat
@@ -855,48 +605,6 @@ substrList
     |
     ;
 
-xmlAttributes
-    : XMLATTRIBUTES LP_ xmlAttributeList RP_
-    ;
-
-xmlAttributeList
-    : xmlAttributeEl (COMMA_ xmlAttributeEl)*
-    ;
-
-xmlAttributeEl
-    : aExpr AS identifier | aExpr
-    ;
-
-xmlExistsArgument
-    : PASSING cExpr
-    | PASSING cExpr xmlPassingMech
-    | PASSING xmlPassingMech cExpr
-    | PASSING xmlPassingMech cExpr xmlPassingMech
-    ;
-
-xmlPassingMech
-    : BY REF | BY VALUE
-    ;
-
-documentOrContent
-    : DOCUMENT | CONTENT
-    ;
-
-xmlWhitespaceOption
-    : PRESERVE WHITESPACE | STRIP WHITESPACE |
-    ;
-
-xmlRootVersion
-    : VERSION aExpr
-    | VERSION NO VALUE
-    ;
-
-xmlRootStandalone
-    : COMMA_ STANDALONE YES
-    | COMMA_ STANDALONE NO
-    | COMMA_ STANDALONE NO VALUE
-    ;
-
 rowsFromItem
     : functionExprWindowless columnDefList
     ;
@@ -943,29 +651,8 @@ funcAliasClause
     | colId LP_ tableFuncElementList RP_
     ;
 
-tablesampleClause
-    : TABLESAMPLE funcName LP_ exprList RP_ repeatableClause?
-    ;
-
-repeatableClause
-    : REPEATABLE LP_ aExpr RP_
-    ;
-
 allOrDistinct
     : ALL | DISTINCT
-    ;
-
-sortClause
-    : ORDER BY sortbyList
-    ;
-
-sortbyList
-    : sortby (COMMA_ sortby)*
-    ;
-
-sortby
-    : aExpr USING qualAllOp nullsOrder?
-    | aExpr ascDesc? nullsOrder?
     ;
 
 nullsOrder
@@ -980,42 +667,6 @@ distinctClause
 
 distinct
     : DISTINCT
-    ;
-
-overClause
-    : OVER windowSpecification
-    | OVER colId
-    ;
-
-windowSpecification
-    : LP_ windowName? partitionClause? sortClause? frameClause? RP_
-    ;
-
-windowName
-    : colId
-    ;
-
-partitionClause
-    : PARTITION BY exprList
-    ;
-
-indexParams
-    : indexElem (COMMA_ indexElem)*
-    ;
-
-indexElemOptions
-    : collate? optClass ascDesc? nullsOrder?
-    | collate? anyName reloptions ascDesc? nullsOrder?
-    ;
-
-indexElem
-    : colId indexElemOptions
-    | functionExprWindowless indexElemOptions
-    | LP_ aExpr RP_ indexElemOptions
-    ;
-
-collate
-    : COLLATE anyName
     ;
 
 optClass
@@ -1040,11 +691,9 @@ reloptionElem
 defArg
     : funcType
     | reservedKeyword
-    | qualAllOp
     | NUMBER_
     | STRING_
     | NONE
-    | funcName (LP_ funcArgsList RP_ | LP_ RP_)
     ;
 
 funcType
@@ -1145,30 +794,10 @@ colNameKeyword
     | TRIM
     | VALUES
     | VARCHAR
-    | XMLATTRIBUTES
-    | XMLCONCAT
-    | XMLELEMENT
-    | XMLEXISTS
-    | XMLFOREST
-    | XMLNAMESPACES
-    | XMLPARSE
-    | XMLPI
-    | XMLROOT
-    | XMLSERIALIZE
-    | XMLTABLE
     ;
 
 databaseName
     : colId
-    ;
-
-roleSpec
-    : identifier
-    | nonReservedWord
-    | CURRENT_USER
-    | SESSION_USER
-    | CURRENT_ROLE
-    | PUBLIC
     ;
 
 varName
@@ -1184,83 +813,10 @@ varValue
     : booleanOrString | numericOnly
     ;
 
-zoneValue
-    : STRING_
-    | identifier
-    | INTERVAL STRING_ optInterval
-    | INTERVAL LP_ NUMBER_ RP_ STRING_
-    | numericOnly
-    | DEFAULT
-    | LOCAL
-    ;
-
 numericOnly
     : NUMBER_
     | PLUS_ NUMBER_
     | MINUS_ NUMBER_
-    ;
-
-isoLevel
-    : READ UNCOMMITTED
-    | READ COMMITTED
-    | REPEATABLE READ
-    | SERIALIZABLE
-    ;
-
-columnDef
-    : colId typeName createGenericOptions? colQualList
-    ;
-
-colQualList
-    : colConstraint*
-    ;
-
-colConstraint
-    : CONSTRAINT name colConstraintElem
-    | colConstraintElem
-    | constraintAttr
-    | COLLATE anyName
-    ;
-
-constraintAttr
-    : DEFERRABLE
-    | NOT DEFERRABLE
-    | INITIALLY DEFERRED
-    | INITIALLY IMMEDIATE
-    ;
-
-colConstraintElem
-    : NOT NULL
-    | NULL
-    | UNIQUE (WITH definition)? consTableSpace
-    | PRIMARY KEY (WITH definition)? consTableSpace
-    | CHECK LP_ aExpr RP_ noInherit?
-    | DEFAULT bExpr
-    | GENERATED generatedWhen AS IDENTITY parenthesizedSeqOptList?
-    | GENERATED generatedWhen AS LP_ aExpr RP_ STORED
-    | REFERENCES qualifiedName optColumnList? keyMatch? keyActions?
-    ;
-
-parenthesizedSeqOptList
-    : LP_ seqOptList RP_
-    ;
-
-seqOptList
-    : seqOptElem+
-    ;
-
-seqOptElem
-    : AS simpleTypeName
-    | CACHE numericOnly
-    | NO? CYCLE
-    | INCREMENT BY? numericOnly
-    | (MAXVALUE | MINVALUE) numericOnly
-    | NO (MAXVALUE | MINVALUE)
-    | OWNED BY (anyName | NONE)
-    | SEQUENCE NAME anyName
-    | START WITH? numericOnly
-    | RESTART
-    | RESTART WITH? numericOnly
     ;
 
 optColumnList
@@ -1273,19 +829,6 @@ columnElem
 
 columnList
     : columnElem (COMMA_ columnElem)*
-    ;
-
-generatedWhen
-    : ALWAYS
-    | BY DEFAULT
-    ;
-
-noInherit
-    : NO INHERIT
-    ;
-
-consTableSpace
-    : USING INDEX TABLESPACE name
     ;
 
 definition
@@ -1331,194 +874,6 @@ keyAction
     | SET DEFAULT
     ;
 
-keyMatch
-    : MATCH FULL | MATCH PARTIAL | MATCH SIMPLE
-    ;
-
-createGenericOptions
-    : OPTIONS LP_ genericOptionList RP_
-    ;
-
-genericOptionList
-    : genericOptionElem (COMMA_ genericOptionElem)*
-    ;
-
-genericOptionElem
-    : genericOptionName genericOptionArg
-    ;
-
-genericOptionArg
-    : STRING_
-    ;
-
-genericOptionName
-    : colLable
-    ;
-
-replicaIdentity
-    : NOTHING
-    | FULL
-    | DEFAULT
-    | USING INDEX name
-    ;
-
-operArgtypes
-    : LP_ (typeName | NONE) COMMA_ typeName RP_
-    ;
-
-funcArg
-    : argClass paramName funcType
-    | paramName argClass funcType
-    | paramName funcType
-    | argClass funcType
-    | funcType
-    ;
-
-argClass
-    : IN
-    | OUT
-    | INOUT
-    | IN OUT
-    | VARIADIC
-    ;
-
-funcArgsList
-    : funcArg (COMMA_ funcArg)*
-    ;
-
-nonReservedWordOrSconst
-    : nonReservedWord
-    | STRING_
-    ;
-
-fileName
-    : STRING_
-    ;
-
-roleList
-    : roleSpec (COMMA_ roleSpec)*
-    ;
-
-setResetClause
-    : SET setRest
-    | variableResetStmt
-    ;
-
-setRest
-    : TRANSACTION transactionModeList
-    | SESSION CHARACTERISTICS AS TRANSACTION transactionModeList
-    | setRestMore
-    ;
-
-transactionModeList
-    : transactionModeItem (COMMA_? transactionModeItem)*
-    ;
-
-transactionModeItem
-    : ISOLATION LEVEL isoLevel
-    | READ ONLY
-    | READ WRITE
-    | DEFERRABLE
-    | NOT DEFERRABLE
-    ;
-
-setRestMore
-    : genericSet
-    | varName FROM CURRENT
-    | TIME ZONE zoneValue
-    | CATALOG STRING_
-    | SCHEMA STRING_
-    | NAMES encoding?
-    | ROLE nonReservedWord | STRING_
-    | SESSION AUTHORIZATION nonReservedWord | STRING_
-    | SESSION AUTHORIZATION DEFAULT
-    | XML OPTION documentOrContent
-    | TRANSACTION SNAPSHOT STRING_
-    ;
-
-encoding
-    : STRING_
-    | DEFAULT
-    ;
-
-genericSet
-    : varName (EQ_|TO) (varList | DEFAULT)
-    ;
-
-variableResetStmt
-    : RESET resetRest
-    ;
-
-resetRest
-    : genericReset
-    | TIME ZONE
-    | TRANSACTION ISOLATION LEVEL
-    | SESSION AUTHORIZATION
-    ;
-
-genericReset
-    : varName
-    | ALL
-    ;
-
-relationExprList
-    : relationExpr (COMMA_ relationExpr)*
-    ;
-
-relationExpr
-    : qualifiedName (ASTERISK_)?
-    | ONLY LP_? qualifiedName RP_?
-    ;
-
-commonFuncOptItem
-    : CALLED ON NULL INPUT
-    | RETURNS NULL ON NULL INPUT
-    | STRICT
-    | IMMUTABLE
-    | STABLE
-    | VOLATILE
-    | EXTERNAL SECURITY DEFINER
-    | EXTERNAL SECURITY INVOKER
-    | SECURITY DEFINER
-    | SECURITY INVOKER
-    | LEAKPROOF
-    | NOT LEAKPROOF
-    | COST numericOnly
-    | ROWS numericOnly
-    | SUPPORT anyName
-    | functionSetResetClause
-    | PARALLEL colId
-    ;
-
-functionSetResetClause
-    : SET setRestMore
-    | variableResetStmt
-    ;
-
-rowSecurityCmd
-    : ALL | SELECT | INSERT | UPDATE | DELETE
-    ;
-
-event
-    : SELECT | UPDATE | DELETE | INSERT
-    ;
-
-typeNameList
-    : typeName (COMMA_ typeName)*
-    ;
-
-ifNotExists
-    : IF NOT EXISTS
-    ;
-
-ifExists
-    : IF EXISTS
-    ;
-
 booleanValue
     : TRUE | ON | FALSE | OFF | NUMBER_
-    ;
-
-hostVariable
-    : (COLON_)? identifier
     ;
